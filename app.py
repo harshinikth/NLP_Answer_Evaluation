@@ -113,7 +113,7 @@ def create_pdf(results_df, student_name, regno, total_score):
         pdf.multi_cell(epw, 7, f"Q{idx+1}: {str(row['Question'])[:250]}")
         
         pdf.set_font("Arial", '', 10)
-        stu_ans = str(row['Student Answer'])[:500].replace('\n', ' ')
+        stu_ans = str(row['Your Answer'])[:500].replace('\n', ' ')
         mod_ans = str(row['Model Answer'])[:500].replace('\n', ' ')
         
         pdf.multi_cell(epw, 6, f"Your Answer: {stu_ans}")
