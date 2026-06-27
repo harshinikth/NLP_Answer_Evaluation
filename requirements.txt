@@ -2,3 +2,5 @@ streamlit
 pandas
 sentence-transformers
 fpdf
+torch 
+torchvision
