@@ -251,7 +251,7 @@ elif user_type == "Student":
                 return 'background-color: #FFB6C1' # Light red
 
         st.dataframe(
-            results_df.style.applymap(color_marks, subset=['Marks']),
+            results_df.style.map(color_marks, subset=['Marks']),
             use_container_width=True,
             height=400
         )
