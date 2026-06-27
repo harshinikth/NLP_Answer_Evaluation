@@ -121,7 +121,7 @@ def create_pdf(results_df, student_name, regno, total_score):
         pdf.multi_cell(epw, 6, f"Marks: {row['Marks']} | Similarity: {row['Similarity']}")
         pdf.ln(4)
     
-    return pdf.output(dest='S').encode('latin-1', 'replace')
+    return bytes(pdf.output())
 # Sidebar for user selection
 st.sidebar.title("Select User")
 user_type = st.sidebar.selectbox("Choose Role", ["Home", "Teacher", "Student"])
