@@ -90,34 +90,38 @@ def evaluate_with_bert(student_ans, model_ans):
     feedback = f"Semantic similarity: {similarity_percentage}%"
     return marks, similarity_percentage, feedback
 
-def create_pdf(results_df, student_name, student_regno, total_score):
-    # Create PDF report
+def create_pdf(results_df, student_name, regno, total_score):
     pdf = FPDF()
     pdf.add_page()
-    pdf.set_font("Arial", 'B', 16)
-    pdf.cell(0, 10, "Exam Result Report", ln=True, align='C')
-    pdf.ln(10)
-
-    pdf.set_font("Arial", '', 12)
-    pdf.cell(0, 10, f"Student Name: {student_name}", ln=True)
-    pdf.cell(0, 10, f"Register Number: {student_regno}", ln=True)
-    pdf.cell(0, 10, f"Total Score: {total_score}/50", ln=True)
+    pdf.set_auto_page_break(auto=True, margin=15)
+    pdf.set_margins(10, 10, 10)  # Left, Top, Right margin
+    pdf.set_font("Arial", size=12)
+    
+    # Header
+    pdf.set_font("Arial", 'B', 14)
+    pdf.cell(0, 10, "Answer Evaluation Report", ln=True, align='C')
+    pdf.set_font("Arial", '', 11)
+    pdf.cell(0, 8, f"Name: {student_name}  |  RegNo: {regno}", ln=True)
+    pdf.cell(0, 8, f"Total Score: {total_score}/50", ln=True)
     pdf.ln(5)
-
-    pdf.set_font("Arial", 'B', 12)
-    pdf.cell(0, 10, "Detailed Results:", ln=True)
-    pdf.ln(3)
-
+    
+    # Body - Epw = Effective Page Width
+    epw = pdf.w - 2*pdf.l_margin
+    
     for idx, row in results_df.iterrows():
-        pdf.set_font("Arial", 'B', 10)
-        pdf.multi_cell(0, 8, f"Q{idx+1}: {row['Question']}")
+        pdf.set_font("Arial", 'B', 11)
+        pdf.multi_cell(epw, 7, f"Q{idx+1}: {str(row['Question'])[:250]}")
+        
         pdf.set_font("Arial", '', 10)
-        pdf.multi_cell(0, 6, f"Your Answer: {row['Your Answer']}")
-        pdf.multi_cell(0, 6, f"Model Answer: {row['Model Answer']}")
-        pdf.multi_cell(0, 6, f"Marks: {row['Marks']} | {row['Similarity']}")
-        pdf.ln(3)
-
-    return bytes(pdf.output())
+        stu_ans = str(row['Student Answer'])[:500].replace('\n', ' ')
+        mod_ans = str(row['Model Answer'])[:500].replace('\n', ' ')
+        
+        pdf.multi_cell(epw, 6, f"Your Answer: {stu_ans}")
+        pdf.multi_cell(epw, 6, f"Model Answer: {mod_ans}")
+        pdf.multi_cell(epw, 6, f"Marks: {row['Marks']} | Similarity: {row['Similarity']}")
+        pdf.ln(4)
+    
+    return pdf.output(dest='S').encode('latin-1', 'replace')
 # Sidebar for user selection
 st.sidebar.title("Select User")
 user_type = st.sidebar.selectbox("Choose Role", ["Home", "Teacher", "Student"])
