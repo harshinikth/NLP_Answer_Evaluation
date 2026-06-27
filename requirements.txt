@@ -1,6 +1,6 @@
 streamlit
 pandas
 sentence-transformers
-fpdf
+fpdf2
 torch 
 torchvision
