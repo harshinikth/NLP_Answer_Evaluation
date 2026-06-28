@@ -296,13 +296,13 @@ if st.session_state.exam_submitted:
             st.metric("Grade", "C", "Need Practice")
                 
                     # --- Table Color Function 
-st.subheader("📈 Performance Chart")
-
-fig, ax = plt.subplots(figsize=(5,3))
-ax.bar(["Score", "Remaining"], [total_score, 50-total_score])
-ax.set_ylim(0, 50)
-ax.set_ylabel("Marks")
-st.pyplot(fig)
+    st.subheader("📈 Performance Chart")
+    
+    fig, ax = plt.subplots(figsize=(5,3))
+    ax.bar(["Score", "Remaining"], [total_score, 50-total_score])
+    ax.set_ylim(0, 50)
+    ax.set_ylabel("Marks")
+    st.pyplot(fig)
 
 if total_score >= 40:
     st.success("🎉 Excellent Performance!")
