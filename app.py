@@ -294,8 +294,6 @@ if st.session_state.exam_submitted:
             st.metric("Grade", "B", "Good")
         else:
             st.metric("Grade", "C", "Need Practice")
-results_df = pd.DataFrame(results_data)
-st.session_state.results_df = results_df
                 
                     # --- Table Color Function --- Idhu mukkiyam
 def color_marks(val):
