@@ -217,8 +217,8 @@ elif user_type == "Student":
            1 for ans in st.session_state.student_answers.values()
            if ans.strip()
        )
-
-       progress = answered / 10
+        
+        progress = answered / 10
 
        st.progress(progress)
 
