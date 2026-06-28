@@ -211,7 +211,6 @@ elif user_type == "Student":
     # Exam interface
     if st.session_state.exam_started and not st.session_state.exam_submitted:
         st.header(f"📋 Exam for {st.session_state.student_name} - {st.session_state.student_regno}")
-        st.progress(0.0)
     
     st.warning("⚠️ Do not refresh the page. Answer all questions and submit.")
 
