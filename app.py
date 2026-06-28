@@ -301,43 +301,43 @@ if st.session_state.exam_submitted:
     ax.set_ylabel("Marks")
     st.pyplot(fig)
 
-if total_score >= 40:
-    st.success("🎉 Excellent Performance!")
-    st.balloons()
-elif total_score >= 25:
-    st.warning("👍 Good Job! Keep practicing.")
-else:
-    st.error("📚 Need more practice. Review the model answers.")
-
-pdf_bytes = create_pdf(
-    results_df,
-    st.session_state.student_name,
-    st.session_state.student_regno,
-    total_score
-)
-
-st.download_button(
-    "📥 Download PDF Report",
-    pdf_bytes,
-    file_name=f"{st.session_state.student_regno}_result.pdf",
-    mime="application/pdf",
-    use_container_width=True
-)
-
-csv = results_df.to_csv(index=False)
-
-st.download_button(
-    "📥 Download CSV Report",
-    csv,
-    file_name=f"{st.session_state.student_regno}_result.csv",
-    mime="text/csv",
-    use_container_width=True
-)
-
-if st.button("Take Another Exam", use_container_width=True):
-    st.session_state.exam_started = False
-    st.session_state.exam_submitted = False
-    st.session_state.questions_selected = False
-    st.session_state.selected_questions = pd.DataFrame()
-    st.session_state.student_answers = {}
-    st.rerun()
+    if total_score >= 40:
+        st.success("🎉 Excellent Performance!")
+        st.balloons()
+    elif total_score >= 25:
+        st.warning("👍 Good Job! Keep practicing.")
+    else:
+        st.error("📚 Need more practice. Review the model answers.")
+    
+    pdf_bytes = create_pdf(
+        results_df,
+        st.session_state.student_name,
+        st.session_state.student_regno,
+        total_score
+    )
+    
+    st.download_button(
+        "📥 Download PDF Report",
+        pdf_bytes,
+        file_name=f"{st.session_state.student_regno}_result.pdf",
+        mime="application/pdf",
+        use_container_width=True
+    )
+    
+    csv = results_df.to_csv(index=False)
+    
+    st.download_button(
+        "📥 Download CSV Report",
+        csv,
+        file_name=f"{st.session_state.student_regno}_result.csv",
+        mime="text/csv",
+        use_container_width=True
+    )
+    
+    if st.button("Take Another Exam", use_container_width=True):
+        st.session_state.exam_started = False
+        st.session_state.exam_submitted = False
+        st.session_state.questions_selected = False
+        st.session_state.selected_questions = pd.DataFrame()
+        st.session_state.student_answers = {}
+        st.rerun()
