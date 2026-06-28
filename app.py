@@ -101,7 +101,7 @@ def create_pdf(results_df, student_name, regno, total_score):
     pdf.set_font("Arial", size=12)
     from pathlib import Path
 
-    font_path = Path(__file__).parent / "fonts" / "DejaVuSans.ttf"
+    font_path = Path(__file__).parent / "DejaVuSans.ttf"
     
     pdf.add_font("DejaVu", "", str(font_path))
     pdf.set_font("DejaVu", size=11)
