@@ -98,20 +98,16 @@ def create_pdf(results_df, student_name, regno, total_score):
     pdf.add_page()
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.set_margins(10, 10, 10)  # Left, Top, Right margin
-    pdf.set_font("DejaVu", size=11)
     from pathlib import Path
 
     font_path = Path(__file__).parent / "DejaVuSans.ttf"
     
     pdf.add_font("DejaVu", "", str(font_path))
-    pdf.set_font("DejaVu", size=11)
+    pdf.set_font("DejaVu", "", 11)
     
     # Header
-    pdf.set_font("Arial", 'B', 14)
-    pdf.cell(0, 10, "Answer Evaluation Report", ln=True, align='C')
-    pdf.set_font("Arial", '', 11)
-    pdf.cell(0, 8, f"Name: {student_name}  |  RegNo: {regno}", ln=True)
-    pdf.cell(0, 8, f"Total Score: {total_score}/50", ln=True)
+    pdf.add_font("DejaVu", "", str(font_path))
+    pdf.set_font("DejaVu", "", 11)
     pdf.ln(5)
     
     # Body - Epw = Effective Page Width
