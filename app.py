@@ -99,6 +99,8 @@ def create_pdf(results_df, student_name, regno, total_score):
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.set_margins(10, 10, 10)  # Left, Top, Right margin
     pdf.set_font("Arial", size=12)
+    pdf.add_font("DejaVu", "", "DejaVuSans.ttf")
+    pdf.set_font("DejaVu", size=11)
     
     # Header
     pdf.set_font("Arial", 'B', 14)
