@@ -304,13 +304,13 @@ def color_marks(val):
             
             st.pyplot(fig)
 
-        if total_score >= 40:
-            st.success("🎉 Excellent Performance!")
-            st.balloons()
-        elif total_score >= 25:
-            st.warning("👍 Good Job! Keep practicing.")
-        else:
-            st.error("📚 Need more practice. Review the model answers.")
+            if total_score >= 40:
+                st.success("🎉 Excellent Performance!")
+                st.balloons()
+            elif total_score >= 25:
+                st.warning("👍 Good Job! Keep practicing.")
+            else:
+                st.error("📚 Need more practice. Review the model answers.")
 
         # PDF Download button
         pdf_bytes = create_pdf(results_df, st.session_state.student_name, st.session_state.student_regno, total_score)
