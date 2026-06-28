@@ -231,7 +231,6 @@ elif user_type == "Student":
                 st.rerun()
 
     # Results display with BERT scoring
-    # Results display with BERT scoring
 if st.session_state.exam_submitted:
     st.header("📊 Exam Results")
     st.subheader(f"Student: {st.session_state.student_name} | Reg No: {st.session_state.student_regno}")
@@ -294,8 +293,6 @@ if st.session_state.exam_submitted:
             st.metric("Grade", "B", "Good")
         else:
             st.metric("Grade", "C", "Need Practice")
-                
-                    # --- Table Color Function 
     st.subheader("📈 Performance Chart")
     
     fig, ax = plt.subplots(figsize=(5,3))
