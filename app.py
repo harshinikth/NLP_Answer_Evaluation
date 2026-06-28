@@ -15,7 +15,7 @@ st.set_page_config(page_title="NLP-Based Subjective Answer Evaluation System", l
 def load_bert_model():
     return SentenceTransformer('all-MiniLM-L6-v2')
 
-model = load_bert_model()
+bert_model = load_bert_model()
 
 # Create dataset directory if it does not exist
 if not os.path.exists("dataset"):
@@ -65,40 +65,33 @@ def load_questions_from_file():
             return pd.DataFrame()
     return pd.DataFrame()
 
-def evaluate_with_bert(student_ans, model_ans):
-    # Semantic similarity using Sentence BERT
+def evaluate_with_bert(student_ans, model_ans, model):
+    # Empty answer check
     if not student_ans.strip():
-        return 0, 0, "No answer provided"
+        return 0, 0.0, "❌ No answer provided."
 
-    embeddings = model.encode([student_ans, model_ans])
-    similarity = util.cos_sim(embeddings[0], embeddings[1]).item()
+    emb1 = model.encode(student_ans, convert_to_tensor=True)
+    emb2 = model.encode(model_ans, convert_to_tensor=True)
+    similarity = util.pytorch_cos_sim(emb1, emb2).item()
     similarity_percentage = round(similarity * 100, 2)
 
-    # Convert similarity to marks out of 5
     if similarity >= 0.8:
-        marks = 5
-    elif similarity >= 0.6:
         marks = 4
-    elif similarity >= 0.4:
-        marks = 3
-    elif similarity >= 0.2:
-        marks = 2
-    elif similarity > 0:
-        marks = 1
-    else:
-        marks = 0
-
-    if similarity >= 0.8:
-      feedback = "🌟 Excellent! Your answer covers most of the important concepts."
+        feedback = "🌟 Excellent! Your answer covers most of the important concepts."
     elif similarity >= 0.6:
+        marks = 3
         feedback = "👍 Good Answer. You have understood the topic well."
     elif similarity >= 0.4:
+        marks = 3
         feedback = "🙂 Average Answer. Try to include more key points."
     elif similarity >= 0.2:
-        feedback = "📚 Needs Improvement. Important concepts are missing."
+        marks = 2
+        feedback = "⚠️ Needs Improvement. Important concepts are missing."
     else:
+        marks = 0
         feedback = "❌ Poor Answer. Please revise the topic and try again."
-        return marks, similarity_percentage, feedback
+
+    return marks, similarity_percentage, feedback  # <-- 3 value must
 
 def create_pdf(results_df, student_name, regno, total_score):
     pdf = FPDF()
@@ -252,30 +245,49 @@ elif user_type == "Student":
 
                 marks, similarity, feedback = evaluate_with_bert(student_ans, model_ans)
                 total_score += marks
+with st.spinner("Evaluating answers using BERT..."):
+    for i, row in st.session_state.selected_questions.iterrows():
+        student_ans = st.session_state.student_answers.get(i, "").strip()
+        model_ans = row['Answer'].strip()
 
-                results_data.append({
-                    "Question": row['Question'],
-                    "Your Answer": student_ans,
-                    "Model Answer": model_ans,
-                    "Marks": f"{marks}/5",
-                    "Similarity": f"{similarity}%",
-                    "Feedback": feedback
-                })
+        # Indha line dhan mukkiyam - bert_model pass pannu
+        marks, similarity, feedback = evaluate_with_bert(student_ans, model_ans, bert_model)
+        
+        total_score += marks
 
-        results_df = pd.DataFrame(results_data)
-        st.session_state.results_df = results_df
+        results_data.append({
+            "Question": row['Question'],
+            "Your Answer": student_ans,
+            "Model Answer": model_ans,
+            "Marks": f"{marks}/5",
+            "Similarity": f"{similarity}%",
+            "Feedback": feedback
+        })
+                results_df = pd.DataFrame(results_data)
+    st.session_state.results_df = results_df
 
-        # Color code the dataframe
-        def color_marks(val):
-            mark = int(val.split('/')[0])
-            if mark >= 4:
-                return 'background-color: #90EE90' # Light green
-            elif mark >= 2:
-                return 'background-color: #FFD700' # Gold
-            else:
-                return 'background-color: #FFB6C1' # Light red
+    # --- Table Color Function --- Idhu mukkiyam
+    def color_marks(val):
+        mark = int(val.split('/')[0])
+        if mark >= 4:
+            return 'background-color: #90EE90' # Light green
+        elif mark >= 2:
+            return 'background-color: #FFD700' # Gold
+        else:
+            return 'background-color: #FFB6C1' # Light red
 
-        st.dataframe(
+    st.dataframe(
+        results_df.style.map(color_marks, subset=['Marks']),
+        use_container_width=True,
+        height=400
+    )
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Total Score", f"{total_score}/50")
+    with col2:
+        percentage = round(total_score/50*100, 1)
+        st.metric("Percentage", f"{percentage}%")
             results_df.style.map(color_marks, subset=['Marks']),
             use_container_width=True,
             height=400
