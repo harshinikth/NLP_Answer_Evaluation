@@ -233,9 +233,9 @@ with st.form("exam_form"):
 
     submitted = st.form_submit_button("Submit Exam", type="primary", use_container_width=True)
 
-       if submitted:
-            st.session_state.exam_submitted = True
-            st.rerun()
+    if submitted:
+        st.session_state.exam_submitted = True
+        st.rerun()
 
     # Results display with BERT scoring
     if st.session_state.exam_submitted:
