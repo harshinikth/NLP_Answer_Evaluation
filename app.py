@@ -235,28 +235,65 @@ elif user_type == "Student":
         st.header("📊 Exam Results")
         st.subheader(f"Student: {st.session_state.student_name} | Reg No: {st.session_state.student_regno}")
 
-        results_data = []
-        total_score = 0
+           results_data = []
+    total_score = 0
+    
+    with st.spinner("Evaluating answers using BERT..."):
+        for i, row in st.session_state.selected_questions.iterrows():
+            student_ans = st.session_state.student_answers.get(i, "").strip()
+            model_ans = row['Answer'].strip()
+            
+            marks, similarity, feedback = evaluate_with_bert(student_ans, model_ans, bert_model)
+            total_score += marks
+            
+            results_data.append({
+                "Q.No": i+1,
+                "Question": row['Question'],
+                "Your Answer": student_ans,
+                "Model Answer": model_ans,
+                "Marks": f"{marks}/5",
+                "Similarity": f"{similarity}%",
+                "Feedback": feedback
+            })
+        
+        # For loop mudinjachu
+        if not results_data:
+            st.error("❌ No answers to evaluate. Please answer at least one question.")
+            st.stop()
+        
+        results_df = pd.DataFrame(results_data)
+        st.session_state.results_df = results_df
 
-        with st.spinner("Evaluating answers using BERT..."):
-            for i, row in st.session_state.selected_questions.iterrows():
-                student_ans = st.session_state.student_answers.get(i, "")
-                model_ans = row['Answer']
+    # 'with st.spinner' mudinjachu
+    def color_marks(val):
+        mark = int(val.split('/')[0])
+        if mark >= 4:
+            return 'background-color: #90EE90'
+        elif mark >= 2:
+            return 'background-color: #FFD700'
+        else:
+            return 'background-color: #FFB6C1'
 
-                marks, similarity, feedback = evaluate_with_bert(student_ans, model_ans, bert_model)
-                total_score += marks
-with st.spinner("Evaluating answers using BERT..."):
-    for i, row in st.session_state.selected_questions.iterrows():
-        student_ans = st.session_state.student_answers.get(i, "").strip()
-        model_ans = row['Answer'].strip()
+    st.subheader("📋 Detailed Results")
+    st.dataframe(
+        results_df.style.map(color_marks, subset=['Marks']),
+        use_container_width=True,
+        height=400
+    )
 
-        results_data.append({
-            "Question": row['Question'],
-            "Your Answer": student_ans,
-            "Model Answer": model_ans,
-            "Marks": f"{marks}/5",
-            "Similarity": f"{similarity}%",
-            "Feedback": feedback
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Total Score", f"{total_score}/50")
+    with col2:
+        percentage = round(total_score/50*100, 1)
+        st.metric("Percentage", f"{percentage}%")
+    with col3:
+        if total_score >= 40:
+            st.metric("Grade", "A", "Excellent")
+        elif total_score >= 25:
+            st.metric("Grade", "B", "Good")
+        else:
+            st.metric("Grade", "C", "Need Practice")
         })
 results_df = pd.DataFrame(results_data)
 st.session_state.results_df = results_df
