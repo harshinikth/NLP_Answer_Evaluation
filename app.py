@@ -295,56 +295,55 @@ if st.session_state.exam_submitted:
         else:
             st.metric("Grade", "C", "Need Practice")
                 
-                    # --- Table Color Function --- Idhu mukkiyam
-def color_marks(val):
-            mark = int(val.split('/')[0])
-            if mark >= 4:
-                return 'background-color: #90EE90' # Light green
-            elif mark >= 2:
-                return 'background-color: #FFD700' # Gold
-            else:
-                return 'background-color: #FFB6C1' # Light red
-    
-            st.dataframe(
-                results_df.style.map(color_marks, subset=['Marks']),
-                use_container_width=True,
-                height=400
-            )
-            
-            col1, col2, col3 = st.columns(3)
-            with col1:
-                st.metric("Total Score", f"{total_score}/50")
-            with col2:
-                percentage = round(total_score/50*100, 1)
-                st.metric("Percentage", f"{percentage}%")
-                with col3:
-                    if total_score >= 40:
-                        st.metric("Grade", "A", "Excellent")
-                    elif total_score >= 25:
-                        st.metric("Grade", "B", "Good")
-                    else:
-                        st.metric("Grade", "C", "Need Practice")
-            st.subheader("📈 Performance Chart")
+                    # --- Table Color Function 
+st.subheader("📈 Performance Chart")
 
-            fig, ax = plt.subplots(figsize=(5,3))
-            
-            ax.bar(
-                ["Score", "Remaining"],
-                [total_score, 50 - total_score]
-            )
-            
-            ax.set_ylabel("Marks")
-            ax.set_ylim(0, 50)
-            
-            st.pyplot(fig)
+fig, ax = plt.subplots(figsize=(5,3))
+ax.bar(["Score", "Remaining"], [total_score, 50-total_score])
+ax.set_ylim(0, 50)
+ax.set_ylabel("Marks")
+st.pyplot(fig)
 
-            if total_score >= 40:
-                st.success("🎉 Excellent Performance!")
-                st.balloons()
-            elif total_score >= 25:
-                st.warning("👍 Good Job! Keep practicing.")
-            else:
-                st.error("📚 Need more practice. Review the model answers.")
+if total_score >= 40:
+    st.success("🎉 Excellent Performance!")
+    st.balloons()
+elif total_score >= 25:
+    st.warning("👍 Good Job! Keep practicing.")
+else:
+    st.error("📚 Need more practice. Review the model answers.")
+
+pdf_bytes = create_pdf(
+    results_df,
+    st.session_state.student_name,
+    st.session_state.student_regno,
+    total_score
+)
+
+st.download_button(
+    "📥 Download PDF Report",
+    pdf_bytes,
+    file_name=f"{st.session_state.student_regno}_result.pdf",
+    mime="application/pdf",
+    use_container_width=True
+)
+
+csv = results_df.to_csv(index=False)
+
+st.download_button(
+    "📥 Download CSV Report",
+    csv,
+    file_name=f"{st.session_state.student_regno}_result.csv",
+    mime="text/csv",
+    use_container_width=True
+)
+
+if st.button("Take Another Exam", use_container_width=True):
+    st.session_state.exam_started = False
+    st.session_state.exam_submitted = False
+    st.session_state.questions_selected = False
+    st.session_state.selected_questions = pd.DataFrame()
+    st.session_state.student_answers = {}
+    st.rerun()
 
         # PDF Download button
             pdf_bytes = create_pdf(results_df, st.session_state.student_name, st.session_state.student_regno, total_score)
