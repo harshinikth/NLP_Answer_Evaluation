@@ -277,19 +277,19 @@ def color_marks(val):
                 height=400
             )
             
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.metric("Total Score", f"{total_score}/50")
-        with col2:
-            percentage = round(total_score/50*100, 1)
-            st.metric("Percentage", f"{percentage}%")
-            with col3:
-                if total_score >= 40:
-                    st.metric("Grade", "A", "Excellent")
-                elif total_score >= 25:
-                    st.metric("Grade", "B", "Good")
-                else:
-                    st.metric("Grade", "C", "Need Practice")
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("Total Score", f"{total_score}/50")
+            with col2:
+                percentage = round(total_score/50*100, 1)
+                st.metric("Percentage", f"{percentage}%")
+                with col3:
+                    if total_score >= 40:
+                        st.metric("Grade", "A", "Excellent")
+                    elif total_score >= 25:
+                        st.metric("Grade", "B", "Good")
+                    else:
+                        st.metric("Grade", "C", "Need Practice")
             st.subheader("📈 Performance Chart")
 
             fig, ax = plt.subplots(figsize=(5,3))
