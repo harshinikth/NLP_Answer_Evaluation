@@ -262,34 +262,34 @@ results_df = pd.DataFrame(results_data)
 st.session_state.results_df = results_df
                 
                     # --- Table Color Function --- Idhu mukkiyam
-        def color_marks(val):
-                mark = int(val.split('/')[0])
-                if mark >= 4:
-                    return 'background-color: #90EE90' # Light green
-                elif mark >= 2:
-                    return 'background-color: #FFD700' # Gold
+    def color_marks(val):
+            mark = int(val.split('/')[0])
+            if mark >= 4:
+                return 'background-color: #90EE90' # Light green
+            elif mark >= 2:
+                return 'background-color: #FFD700' # Gold
+            else:
+                return 'background-color: #FFB6C1' # Light red
+    
+        st.dataframe(
+            results_df.style.map(color_marks, subset=['Marks']),
+            use_container_width=True,
+            height=400
+        )
+    
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Total Score", f"{total_score}/50")
+        with col2:
+            percentage = round(total_score/50*100, 1)
+            st.metric("Percentage", f"{percentage}%")
+            with col3:
+                if total_score >= 40:
+                    st.metric("Grade", "A", "Excellent")
+                elif total_score >= 25:
+                    st.metric("Grade", "B", "Good")
                 else:
-                    return 'background-color: #FFB6C1' # Light red
-        
-            st.dataframe(
-                results_df.style.map(color_marks, subset=['Marks']),
-                use_container_width=True,
-                height=400
-            )
-        
-            col1, col2, col3 = st.columns(3)
-            with col1:
-                st.metric("Total Score", f"{total_score}/50")
-            with col2:
-                percentage = round(total_score/50*100, 1)
-                st.metric("Percentage", f"{percentage}%")
-                with col3:
-                    if total_score >= 40:
-                        st.metric("Grade", "A", "Excellent")
-                    elif total_score >= 25:
-                        st.metric("Grade", "B", "Good")
-                    else:
-                        st.metric("Grade", "C", "Need Practice")
+                    st.metric("Grade", "C", "Need Practice")
             st.subheader("📈 Performance Chart")
 
             fig, ax = plt.subplots(figsize=(5,3))
