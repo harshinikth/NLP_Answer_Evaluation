@@ -244,7 +244,7 @@ if st.session_state.exam_submitted:
             student_ans = st.session_state.student_answers.get(i, "").strip()
             model_ans = row['Answer'].strip()
             
-            marks, similarity, feedback = evaluate_with_bert(student_ans, model_ans, bert_model)
+            marks, similarity, feedback = evaluate_with_bert(student_ans, model_ans)
             total_score += marks
             
             results_data.append({
@@ -265,7 +265,6 @@ if st.session_state.exam_submitted:
         st.session_state.results_df = results_df
 
     # --- Display Results ---
-    # Ellam 'if st.session_state.exam_submitted:' kulla irukanum
     def color_marks(val):
         mark = int(val.split('/')[0])
         if mark >= 4:
