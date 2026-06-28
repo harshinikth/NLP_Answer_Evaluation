@@ -155,6 +155,16 @@ elif user_type == "Teacher":
 
     if not questions_df.empty:
         st.success(f"✅ Dataset loaded: {len(questions_df)} questions available")
+        col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.metric("📚 Total Questions", len(questions_df))
+
+with col2:
+    st.metric("📝 Questions per Exam", 10)
+
+with col3:
+    st.metric("🤖 AI Model", "MiniLM")
         st.subheader("Preview of Questions")
         st.dataframe(questions_df.head(10), use_container_width=True, height=300)
     else:
