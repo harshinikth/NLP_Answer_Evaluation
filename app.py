@@ -313,19 +313,19 @@ def color_marks(val):
                 st.error("📚 Need more practice. Review the model answers.")
 
         # PDF Download button
-        pdf_bytes = create_pdf(results_df, st.session_state.student_name, st.session_state.student_regno, total_score)
-        st.download_button(
-            label="📥 Download PDF Report",
-            data=pdf_bytes,
-            file_name=f"{st.session_state.student_regno}_result.pdf",
-            mime="application/pdf",
-            use_container_width=True
-        )
-
-        if st.button("Take Another Exam", use_container_width=True):
-            st.session_state.exam_started = False
-            st.session_state.exam_submitted = False
-            st.session_state.questions_selected = False
-            st.session_state.selected_questions = pd.DataFrame()
-            st.session_state.student_answers = {}
+            pdf_bytes = create_pdf(results_df, st.session_state.student_name, st.session_state.student_regno, total_score)
+            st.download_button(
+                label="📥 Download PDF Report",
+                data=pdf_bytes,
+                file_name=f"{st.session_state.student_regno}_result.pdf",
+                mime="application/pdf",
+                use_container_width=True
+            )
+    
+            if st.button("Take Another Exam", use_container_width=True):
+                st.session_state.exam_started = False
+                st.session_state.exam_submitted = False
+                st.session_state.questions_selected = False
+                st.session_state.selected_questions = pd.DataFrame()
+                st.session_state.student_answers = {}
             st.rerun()
