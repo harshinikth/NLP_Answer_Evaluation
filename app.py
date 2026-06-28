@@ -244,7 +244,7 @@ if st.session_state.exam_submitted:
             student_ans = st.session_state.student_answers.get(i, "").strip()
             model_ans = row['Answer'].strip()
             
-            marks, similarity, feedback = evaluate_with_bert(student_ans, model_ans)
+            marks, similarity, feedback = evaluate_with_bert(student_ans, model_ans, model)
             total_score += marks
             
             results_data.append({
