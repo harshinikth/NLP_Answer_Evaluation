@@ -262,7 +262,7 @@ results_df = pd.DataFrame(results_data)
 st.session_state.results_df = results_df
                 
                     # --- Table Color Function --- Idhu mukkiyam
-    def color_marks(val):
+def color_marks(val):
             mark = int(val.split('/')[0])
             if mark >= 4:
                 return 'background-color: #90EE90' # Light green
