@@ -271,11 +271,11 @@ def color_marks(val):
             else:
                 return 'background-color: #FFB6C1' # Light red
     
-        st.dataframe(
-            results_df.style.map(color_marks, subset=['Marks']),
-            use_container_width=True,
-            height=400
-        )
+    st.dataframe(
+        results_df.style.map(color_marks, subset=['Marks']),
+        use_container_width=True,
+        height=400
+    )
     
         col1, col2, col3 = st.columns(3)
         with col1:
