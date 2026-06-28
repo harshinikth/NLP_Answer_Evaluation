@@ -243,17 +243,12 @@ elif user_type == "Student":
                 student_ans = st.session_state.student_answers.get(i, "")
                 model_ans = row['Answer']
 
-                marks, similarity, feedback = evaluate_with_bert(student_ans, model_ans)
+                marks, similarity, feedback = evaluate_with_bert(student_ans, model_ans, bert_model)
                 total_score += marks
 with st.spinner("Evaluating answers using BERT..."):
     for i, row in st.session_state.selected_questions.iterrows():
         student_ans = st.session_state.student_answers.get(i, "").strip()
         model_ans = row['Answer'].strip()
-
-        # Indha line dhan mukkiyam - bert_model pass pannu
-        marks, similarity, feedback = evaluate_with_bert(student_ans, model_ans, bert_model)
-        
-        total_score += marks
 
         results_data.append({
             "Question": row['Question'],
@@ -268,7 +263,7 @@ with st.spinner("Evaluating answers using BERT..."):
 
     # --- Table Color Function --- Idhu mukkiyam
     def color_marks(val):
-        mark = int(val.split('/')[0])
+    mark = int(val.split('/')[0])
         if mark >= 4:
             return 'background-color: #90EE90' # Light green
         elif mark >= 2:
