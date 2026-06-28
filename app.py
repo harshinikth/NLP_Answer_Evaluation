@@ -231,40 +231,41 @@ elif user_type == "Student":
                 st.rerun()
 
     # Results display with BERT scoring
-    if st.session_state.exam_submitted:
-        st.header("📊 Exam Results")
-        st.subheader(f"Student: {st.session_state.student_name} | Reg No: {st.session_state.student_regno}")
+    # Results display with BERT scoring
+if st.session_state.exam_submitted:
+    st.header("📊 Exam Results")
+    st.subheader(f"Student: {st.session_state.student_name} | Reg No: {st.session_state.student_regno}")
 
-results_data = []
-total_score = 0
-
-with st.spinner("Evaluating answers using BERT..."):
-    for i, row in st.session_state.selected_questions.iterrows():
-        student_ans = st.session_state.student_answers.get(i, "").strip()
-        model_ans = row['Answer'].strip()
-        
-        marks, similarity, feedback = evaluate_with_bert(student_ans, model_ans, bert_model)
-        total_score += marks
-        
-        results_data.append({
-            "Q.No": i+1,
-            "Question": row['Question'],
-            "Your Answer": student_ans,
-            "Model Answer": model_ans,
-            "Marks": f"{marks}/5",
-            "Similarity": f"{similarity}%",
-            "Feedback": feedback
-        })
+    results_data = []
+    total_score = 0
+    
+    with st.spinner("Evaluating answers using BERT..."):
+        for i, row in st.session_state.selected_questions.iterrows():
+            student_ans = st.session_state.student_answers.get(i, "").strip()
+            model_ans = row['Answer'].strip()
             
-        # For loop mudinjachu
+            marks, similarity, feedback = evaluate_with_bert(student_ans, model_ans, bert_model)
+            total_score += marks
+            
+            results_data.append({
+                "Q.No": i+1,
+                "Question": row['Question'],
+                "Your Answer": student_ans,
+                "Model Answer": model_ans,
+                "Marks": f"{marks}/5",
+                "Similarity": f"{similarity}%",
+                "Feedback": feedback
+            })
+        
         if not results_data:
-            st.error("❌ No answers to evaluate. Please answer at least one question.")
+            st.error("❌ No answers to evaluate.")
             st.stop()
         
         results_df = pd.DataFrame(results_data)
         st.session_state.results_df = results_df
 
-    # 'with st.spinner' mudinjachu
+    # --- Display Results ---
+    # Ellam 'if st.session_state.exam_submitted:' kulla irukanum
     def color_marks(val):
         mark = int(val.split('/')[0])
         if mark >= 4:
