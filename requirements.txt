@@ -5,3 +5,4 @@ fpdf2
 matplotlib
 torch 
 torchvision
+DejaVuSans.ttf
