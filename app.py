@@ -212,20 +212,20 @@ elif user_type == "Student":
     if st.session_state.exam_started and not st.session_state.exam_submitted:
         st.header(f"📋 Exam for {st.session_state.student_name} - {st.session_state.student_regno}")
     
-    st.warning("⚠️ Do not refresh the page. Answer all questions and submit.")
-
-    with st.form("exam_form"):
-        for i, row in st.session_state.selected_questions.iterrows():
-            st.subheader(f"Question {i+1}: {row['Question']} [5 Marks]")
-            answer = st.text_area(f"Your Answer for Q{i+1}", key=f"student_q{i}", height=100, label_visibility="collapsed")
-            st.session_state.student_answers[i] = answer
-            st.divider()
-
-        submitted = st.form_submit_button("Submit Exam", type="primary", use_container_width=True)
-
-        if submitted:
-            st.session_state.exam_submitted = True
-            st.rerun()
+        st.warning("⚠️ Do not refresh the page. Answer all questions and submit.")
+    
+        with st.form("exam_form"):
+            for i, row in st.session_state.selected_questions.iterrows():
+                st.subheader(f"Question {i+1}: {row['Question']} [5 Marks]")
+                answer = st.text_area(f"Your Answer for Q{i+1}", key=f"student_q{i}", height=100, label_visibility="collapsed")
+                st.session_state.student_answers[i] = answer
+                st.divider()
+    
+            submitted = st.form_submit_button("Submit Exam", type="primary", use_container_width=True)
+    
+            if submitted:
+                st.session_state.exam_submitted = True
+                st.rerun()
 
     # Results display with BERT scoring
     if st.session_state.exam_submitted:
