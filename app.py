@@ -88,7 +88,7 @@ def evaluate_with_bert(student_ans, model_ans):
         marks = 0
 
     if similarity >= 0.8:
-    feedback = "🌟 Excellent! Your answer covers most of the important concepts."
+      feedback = "🌟 Excellent! Your answer covers most of the important concepts."
 elif similarity >= 0.6:
     feedback = "👍 Good Answer. You have understood the topic well."
 elif similarity >= 0.4:
