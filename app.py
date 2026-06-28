@@ -6,6 +6,7 @@ from sentence_transformers import SentenceTransformer, util
 from fpdf import FPDF
 import base64
 from io import BytesIO
+import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="NLP-Based Subjective Answer Evaluation System", layout="wide")
 
@@ -293,6 +294,19 @@ elif user_type == "Student":
                 st.metric("Grade", "B", "Good")
             else:
                 st.metric("Grade", "C", "Need Practice")
+            st.subheader("📈 Performance Chart")
+
+            fig, ax = plt.subplots(figsize=(5,3))
+            
+            ax.bar(
+                ["Score", "Remaining"],
+                [total_score, 50 - total_score]
+            )
+            
+            ax.set_ylabel("Marks")
+            ax.set_ylim(0, 50)
+            
+            st.pyplot(fig)
 
         if total_score >= 40:
             st.success("🎉 Excellent Performance!")
