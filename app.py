@@ -167,12 +167,11 @@ with col3:
     st.metric("🤖 AI Model", "MiniLM")
     st.subheader("Preview of Questions")
     st.dataframe(questions_df.head(10), use_container_width=True, height=300)
+else:
+    st.warning("⚠️ No dataset found. Please upload a CSV file.")
 elif user_type == "Student":
     st.title("👨‍🎓 Student Panel")
     questions_df = load_questions_from_file()
-else:
-    st.warning("⚠️ No dataset found. Please upload a CSV file.")
-
     if questions_df.empty:
         st.error("❌ No exam available. Please ask teacher to upload questions first.")
         st.stop()
