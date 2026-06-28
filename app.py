@@ -223,7 +223,7 @@ progress = answered / 10
 st.progress(progress)
 
 st.write(f"### Progress: {answered}/10 Questions Answered")
-        st.warning("⚠️ Do not refresh the page. Answer all questions and submit.")
+st.warning("⚠️ Do not refresh the page. Answer all questions and submit.")
 
         with st.form("exam_form"):
             for i, row in st.session_state.selected_questions.iterrows():
