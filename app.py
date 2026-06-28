@@ -89,15 +89,15 @@ def evaluate_with_bert(student_ans, model_ans):
 
     if similarity >= 0.8:
       feedback = "🌟 Excellent! Your answer covers most of the important concepts."
-elif similarity >= 0.6:
-    feedback = "👍 Good Answer. You have understood the topic well."
-elif similarity >= 0.4:
-    feedback = "🙂 Average Answer. Try to include more key points."
-elif similarity >= 0.2:
-    feedback = "📚 Needs Improvement. Important concepts are missing."
-else:
-    feedback = "❌ Poor Answer. Please revise the topic and try again."
-    return marks, similarity_percentage, feedback
+    elif similarity >= 0.6:
+        feedback = "👍 Good Answer. You have understood the topic well."
+    elif similarity >= 0.4:
+        feedback = "🙂 Average Answer. Try to include more key points."
+    elif similarity >= 0.2:
+        feedback = "📚 Needs Improvement. Important concepts are missing."
+    else:
+        feedback = "❌ Poor Answer. Please revise the topic and try again."
+        return marks, similarity_percentage, feedback
 
 def create_pdf(results_df, student_name, regno, total_score):
     pdf = FPDF()
