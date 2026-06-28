@@ -294,7 +294,6 @@ with st.spinner("Evaluating answers using BERT..."):
             st.metric("Grade", "B", "Good")
         else:
             st.metric("Grade", "C", "Need Practice")
-        )
 results_df = pd.DataFrame(results_data)
 st.session_state.results_df = results_df
                 
