@@ -105,7 +105,6 @@ def create_pdf(results_df, student_name, regno, total_score):
     
     pdf.add_font("DejaVu", "", str(font_path))
     pdf.set_font("DejaVu", size=11)
-    pdf.set_font("DejaVu", size=11)
     
     # Header
     pdf.set_font("Arial", 'B', 14)
