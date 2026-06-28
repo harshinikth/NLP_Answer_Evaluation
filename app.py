@@ -235,7 +235,7 @@ elif user_type == "Student":
         st.header("📊 Exam Results")
         st.subheader(f"Student: {st.session_state.student_name} | Reg No: {st.session_state.student_regno}")
 
-   results_data = []
+results_data = []
     total_score = 0
     
     with st.spinner("Evaluating answers using BERT..."):
