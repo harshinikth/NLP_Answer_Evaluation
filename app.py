@@ -213,7 +213,7 @@ elif user_type == "Student":
         st.header(f"📋 Exam for {st.session_state.student_name} - {st.session_state.student_regno}")
         st.progress(0.0)
 
-       answered = sum(
+        answered = sum(
            1 for ans in st.session_state.student_answers.values()
            if ans.strip()
        )
