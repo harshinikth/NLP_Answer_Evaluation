@@ -291,7 +291,6 @@ with st.spinner("Evaluating answers using BERT..."):
         results_df.style.map(color_marks, subset=['Marks']),
         use_container_width=True,
         height=400
-    )
 
         col1, col2, col3 = st.columns(3)
         with col1:
