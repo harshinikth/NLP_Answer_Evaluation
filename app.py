@@ -98,7 +98,7 @@ def create_pdf(results_df, student_name, regno, total_score):
     pdf.add_page()
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.set_margins(10, 10, 10)  # Left, Top, Right margin
-    pdf.set_font("Arial", size=12)
+    pdf.set_font("DejaVu", size=11)
     from pathlib import Path
 
     font_path = Path(__file__).parent / "DejaVuSans.ttf"
@@ -118,10 +118,10 @@ def create_pdf(results_df, student_name, regno, total_score):
     epw = pdf.w - 2*pdf.l_margin
     
     for idx, row in results_df.iterrows():
-        pdf.set_font("Arial", 'B', 11)
+        pdf.set_font("DejaVu", size=11)
         pdf.multi_cell(epw, 7, f"Q{idx+1}: {str(row['Question'])[:250]}")
         
-        pdf.set_font("Arial", '', 10)
+        pdf.set_font("DejaVu", size=11)
         stu_ans = str(row['Your Answer'])[:500].replace('\n', ' ')
         mod_ans = str(row['Model Answer'])[:500].replace('\n', ' ')
         
