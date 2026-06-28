@@ -236,25 +236,25 @@ elif user_type == "Student":
         st.subheader(f"Student: {st.session_state.student_name} | Reg No: {st.session_state.student_regno}")
 
 results_data = []
-    total_score = 0
-    
-    with st.spinner("Evaluating answers using BERT..."):
-        for i, row in st.session_state.selected_questions.iterrows():
-            student_ans = st.session_state.student_answers.get(i, "").strip()
-            model_ans = row['Answer'].strip()
-            
-            marks, similarity, feedback = evaluate_with_bert(student_ans, model_ans, bert_model)
-            total_score += marks
-            
-            results_data.append({
-                "Q.No": i+1,
-                "Question": row['Question'],
-                "Your Answer": student_ans,
-                "Model Answer": model_ans,
-                "Marks": f"{marks}/5",
-                "Similarity": f"{similarity}%",
-                "Feedback": feedback
-            })
+total_score = 0
+
+with st.spinner("Evaluating answers using BERT..."):
+    for i, row in st.session_state.selected_questions.iterrows():
+        student_ans = st.session_state.student_answers.get(i, "").strip()
+        model_ans = row['Answer'].strip()
+        
+        marks, similarity, feedback = evaluate_with_bert(student_ans, model_ans, bert_model)
+        total_score += marks
+        
+        results_data.append({
+            "Q.No": i+1,
+            "Question": row['Question'],
+            "Your Answer": student_ans,
+            "Model Answer": model_ans,
+            "Marks": f"{marks}/5",
+            "Similarity": f"{similarity}%",
+            "Feedback": feedback
+        })
             
         # For loop mudinjachu
         if not results_data:
