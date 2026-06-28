@@ -15,7 +15,7 @@ st.set_page_config(page_title="NLP-Based Subjective Answer Evaluation System", l
 def load_bert_model():
     return SentenceTransformer('all-MiniLM-L6-v2')
 
-bert_model = load_bert_model()
+model = load_bert_model()
 
 # Create dataset directory if it does not exist
 if not os.path.exists("dataset"):
