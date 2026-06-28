@@ -263,7 +263,7 @@ with st.spinner("Evaluating answers using BERT..."):
 
     # --- Table Color Function --- Idhu mukkiyam
     def color_marks(val):
-    mark = int(val.split('/')[0])
+        mark = int(val.split('/')[0])
         if mark >= 4:
             return 'background-color: #90EE90' # Light green
         elif mark >= 2:
