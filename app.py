@@ -165,10 +165,10 @@ with col2:
 
 with col3:
     st.metric("🤖 AI Model", "MiniLM")
-        st.subheader("Preview of Questions")
-        st.dataframe(questions_df.head(10), use_container_width=True, height=300)
-    else:
-        st.warning("⚠️ No dataset found. Please upload a CSV file.")
+    st.subheader("Preview of Questions")
+    st.dataframe(questions_df.head(10), use_container_width=True, height=300)
+else:
+    st.warning("⚠️ No dataset found. Please upload a CSV file.")
 
 elif user_type == "Student":
     st.title("👨‍🎓 Student Panel")
