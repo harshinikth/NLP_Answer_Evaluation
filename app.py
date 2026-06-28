@@ -259,7 +259,7 @@ with st.spinner("Evaluating answers using BERT..."):
             "Feedback": feedback
         })
         results_df = pd.DataFrame(results_data)
-    st.session_state.results_df = results_df
+        st.session_state.results_df = results_df
 
     # --- Table Color Function --- Idhu mukkiyam
     def color_marks(val):
